@@ -1,1 +1,5 @@
-To add a game class
+Currently working on method razdavane in class table
+- it should be the main turn loop flow
+- later I can improve this method  
+- and now razdavaneto doesn't work because I ...
+- ... haven't done the range of a for loop somewhere

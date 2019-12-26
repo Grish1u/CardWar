@@ -32,6 +32,7 @@ class Deck(object):
 		self.cards = []
 		for i in range(1, 53):
 		 	self.cards.append(Card(i))
+	
 	def getSize(self):
 		return len(self.cards)
 	
@@ -58,7 +59,10 @@ class Player(object):
 		self.name = name
 		self.hand = []
 		self.taken = []
+		self.wins = 0
 	
+	# giveCard() 
+	# returns top card and del removes it from the hand list
 	def giveCard():
 		card = self.hand[0]
 		self.hand.remove(self.hand[0])
@@ -75,7 +79,7 @@ class Player(object):
 		for card in range(1, len(self.taken) + 1):
 			self.hand.append(self.taken[0])
 			self.taken.remove(self.taken[0])
-	
+
 	def printHand(self):
 		print( self.name + "'s hand: ")
 		for c in self.hand:
@@ -89,17 +93,50 @@ class Player(object):
 			c.printCard()
 		if len(self.taken) == 0:
 			print("No cards in Taken")
+	def scores(self):
+		return wins
+
+class Table(object):
+	def __init__(self, deck, player1, player2):
+		self.deck = deck
+		self.p1 = player1
+		self.p2 = player2
+		self.playZone = []
+	
+	def razdavane(self):
+		#self.deck.shuffleDeck()
+		for i in range(1, self.deck.getSize()):
+			
+			self.p1.receiveCard(deck.getTopCard())
+			self.deck.removeTopCard()
+			
+			self.p2.receiveCard(deck.getTopCard())
+			self.deck.removeTopCard()
+		print('deck lenght: ' + str(deck.getSize()))
+		print(self.p1.printTaken())
+		print(self.p2.printTaken())
 
 
-#	def giveCard()
-#class deck(obect):
-#	
-#	cards = [];
-#	facedUp 
+	# def turn(self, p1, p2):
+	# 	card = p1.giveCard()
+	# 	card2 = p2.giveCard()
+	# 	playZone.append(card)
+	# 	playZone.append(card2)
+
+		
+
+
+
 
 while True:
 
-    
+    grigor = Player('grigor')
+    teodor = Player('teodor')
+    deck = Deck()
+    table = Table(deck, grigor, teodor)
+    table.razdavane()
+
+
     
  
 
