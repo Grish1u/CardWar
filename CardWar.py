@@ -23,18 +23,24 @@ class Card(object):
 			return False
 	# card info
 	def printCard(self):
-		print(self.valueName + ' of ' + self.color + '(' + str(self.cardValue) + ')')		
+		message = self.valueName + ' of ' + self.color + '(' + str(self.cardValue) + ')'
+		print(message)
+		return message		
 
-class Deck():
+class Deck(object):
 	def __init__(self):
 		self.cards = []
 		for i in range(1, 53):
 		 	self.cards.append(Card(i))
+	def getSize(self):
+		return len(self.cards)
 	
 	def getTopCard(self):
+		print('GETTING TOP CARD ' + self.cards[0].printCard() )
 		return self.cards[0]
 	
 	def removeTopCard(self):
+		print(self.cards[0].printCard() + ' TOP CARD FROM DECK - REMOVED')
 		self.cards.remove(self.cards[0])
 	
 	def shuffleDeck(self):
@@ -42,8 +48,47 @@ class Deck():
 		random.shuffle(self.cards)
 	
 	def printCards(self):
+		print('PRINTING CARDS IN DECK ')
 		for card in self.cards:
 			card.printCard()
+
+class Player(object):
+	def __init__(self, name):
+		print('A player has been initialized')
+		self.name = name
+		self.hand = []
+		self.taken = []
+	
+	def giveCard():
+		card = self.hand[0]
+		self.hand.remove(self.hand[0])
+		return card
+	
+	def receiveCard(self, card):
+		self.taken.append(card)
+
+	def takenToHand(self):
+		print("TAKEN TO HAND CONVERTION")
+		# for c in self.taken:
+		# 	self.hand.append(c)
+		# 	self.taken.remove(self.taken[0])
+		for card in range(1, len(self.taken) + 1):
+			self.hand.append(self.taken[0])
+			self.taken.remove(self.taken[0])
+	
+	def printHand(self):
+		print( self.name + "'s hand: ")
+		for c in self.hand:
+			c.printCard()
+		if len(self.hand) == 0:
+			print("No cards in Hand")
+		
+	def printTaken(self):
+		print( self.name + "'s taken: ")
+		for c in self.taken:
+			c.printCard()
+		if len(self.taken) == 0:
+			print("No cards in Taken")
 
 
 #	def giveCard()
@@ -53,34 +98,11 @@ class Deck():
 #	facedUp 
 
 while True:
-	# val1 = 20
-	# val = input('what card: ')
-	# val = int(val)
-	# c1 = Card(val)
-	# c2 = Card(val1)
-	# print(c1.color)
-	# print(c1.valueName)
-	# print(' with ')
-	# print(c2.color)
-	# print(c2.valueName)
-	# c1.compareWith(c2)
-	myDeck = Deck()
-	myDeck.printCards()
-	
-	print('\n\n')
-	myDeck.shuffleDeck()
-	myDeck.printCards()
-	print('Num of cards in deck: ' + str(len(myDeck.cards)))
-	
-	print('\n1Getting topCard 2Removing topCard\n')
-	myDeck.getTopCard()
-	myDeck.removeTopCard()
-	myDeck.printCards()
-	print('Num of cards in deck: ' + str(len(myDeck.cards)))
-	
-#	del myDeck
-	myDeck.getTopCard()
-	
-	again = input('q for quit: ')
-	if again == 'q' or again == 'Q':
-		break
+
+    
+    
+ 
+
+    again = input('q to quit: ')
+    if again == 'q' or again == 'Q':
+    	break
