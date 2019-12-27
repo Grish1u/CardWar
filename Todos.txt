@@ -1,5 +1,4 @@
 Currently working on method razdavane in class table
-- it should be the main turn loop flow
-- later I can improve this method  
-- and now razdavaneto doesn't work because I ...
-- ... haven't done the range of a for loop somewhere
+- currently working on table.war() and table.turn() methods
+- haven't tested it it works since I created ...
+- ...the two mentioned methods + table.winner sutuation
