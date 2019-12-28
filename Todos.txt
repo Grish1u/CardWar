@@ -1,4 +1,4 @@
-Currently working on method razdavane in class table
-- currently working on table.war() and table.turn() methods
-- haven't tested it it works since I created ...
-- ...the two mentioned methods + table.winner sutuation
+Currently trying out the whole game flow
+- turns are proceeding when user presses enter
+- some loops are not working properly 
+- after each turn both players need to decrement num of hand with 1 each and nothing different
