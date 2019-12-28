@@ -1,3 +1,8 @@
+# I will be using the following format of printing out data
+# nameOfClass : whatever needs printing out
+# This format of printing data will be used for testing purposes
+# That way I know from which class comes the printing out
+
 import random
 
 
@@ -13,17 +18,17 @@ class Card(object):
 
 	# returns True if current card value is bigger
 	def compareWith(self, anotherCard):
-		if self.valueName > anotherCard.valueName:
-			print("TRUE")
+		if self.valueName > anotherCard.valueName: # TEST IT
+			#print("Card : TRUE") -#TEST purpose
 			return True
 		elif (self.valueName == anotherCard.valueName):
-			print("VALUE IS EQUAL")
+			print("Card : VALUE IS EQUAL")
 		else:
-			print("FALSE")
+			#print("Card : FALSE")
 			return False
 	# card info
 	def printCard(self):
-		message = self.valueName + ' of ' + self.color + '(' + str(self.cardValue) + ')'
+		message = "Card : " +  self.valueName + ' of ' + self.color + '(' + str(self.cardValue) + ')'
 		return message		
 
 class Deck(object):
@@ -36,25 +41,25 @@ class Deck(object):
 		return len(self.cards)
 	
 	def getTopCard(self):
-		print('getting top card from deck ' + self.cards[0].printCard())
+		#print('getting top card from deck ' + self.cards[0].printCard()) # - Testing purposes
 		return self.cards[0]
 	
 	def removeTopCard(self):
-		print(self.cards[0].printCard() + ' from deck removed ')
+		#print(self.cards[0].printCard() + ' from deck removed ') # - Testing purposes
 		self.cards.remove(self.cards[0])
 	
 	def shuffleDeck(self):
-		print('SHUFFLING CARDS ')
+		print('Deck : Shuffling cards in deck ')
 		random.shuffle(self.cards)
 	
 	def printCards(self):
-		print('PRINTING CARDS IN DECK ')
+		print('Deck : Printing cards in deck ')
 		for card in self.cards:
 			card.printCard()
 
 class Player(object):
 	def __init__(self, name):
-		print('A player has been initialized')
+		print('Player : A player has been initialized')
 		self.name = name
 		self.hand = []
 		self.taken = []
@@ -63,16 +68,17 @@ class Player(object):
 	# giveCard() 
 	# returns top card and del removes it from the hand list
 	def giveCard(self):
-		print("%s, %d/hand, %d/taken" % (self.name, len(self.hand), len(self.taken)))
+		print("Player : %s, %d/hand, %d/taken" % (self.name, len(self.hand), len(self.taken)))
 		if self.handEmpty():
 			self.takenToHand()
 			card = self.hand[0]
-			self.hand.remove(self.hand[0])
+			self.hand.remove(self.hand[0]) # TEST IT ?
 			return card
 		else:
 			card = self.hand[0]
-			self.hand.remove(self.hand[0])
+			self.hand.remove(self.hand[0]) # TEST IT ?
 			return card
+		print("Player : after turn - %s, %d/hand, %d/taken" % (self.name, len(self.hand), len(self.taken)))
 	
 	def handEmpty(self):
 		if self.returnHandLen() < 1:
@@ -86,34 +92,35 @@ class Player(object):
 	# second time I have to make shuffle method - add this in todo list. To make only 1 shuffle methiods for all lists of card.
 	# might have to change the player card and taken lists to some kind of a deck object in order to do the Todo
 	def shuffleTaken(self):
-		print('SHUFFLING ' + self.name + "'s taken cards")
 		random.shuffle(self.taken)
 	
 	def takenToHand(self):
 
+		print('Player : ' + self.name + " - taken to hand and shuffling")
 		self.shuffleTaken()
 		for card in range(1, len(self.taken) + 1):
 			self.hand.append(self.taken[0])
 			self.taken.remove(self.taken[0])
-		print('for ' + self.name + " taken to hand done ")
+		print('Player : ' + self.name + " - taken to hand done ")
 
 	def printHand(self):
-		print( self.name + "'s hand: ")
+		print( "Player : " + self.name + " - hand cards: ")
 		for c in self.hand:
 			c.printCard()
 		if len(self.hand) == 0:
-			print("No cards in Hand")
+			print("Player :  - No cards in Hand")
 		
 	def printTaken(self):
-		print( self.name + "'s taken: ")
+		print("Player : " + self.name + " - taken cards: ")
 		for c in self.taken:
 			c.printCard()
 		if len(self.taken) == 0:
-			print("No cards in Taken")
+			print("Player : - No cards in Taken")
 	
 	def printNumCards(self):
 		total = self.returnHandLen() + len(self.taken)
-		print(self.name + ' has ' + str(total) + ' cards')
+		print("Player : " + self.name + ' has ' + str(total) + ' cards')
+	
 	def returnNumCards(self):
 		return self.returnHandLen() + len(self.taken)
 	def returnHandLen(self):
@@ -135,7 +142,8 @@ class Table(object):
 	# The Deck will have 0 elements after this operation
 	def deckDeals(self):
 		#self.deck.shuffleDeck()
-		print('Dealing cards')
+		print('Table : deck lenght BEFORE dealing: ' + str(deck.getSize()))
+
 		while deck.getSize() > 0:
 			
 			self.p1.receiveCard(deck.getTopCard())
@@ -144,7 +152,7 @@ class Table(object):
 			self.p2.receiveCard(deck.getTopCard())
 			self.deck.removeTopCard()
 		
-		print('deck lenght: ' + str(deck.getSize()))
+		print('Table : deck lenght AFTER dealing: ' + str(deck.getSize()))
 
 		
 		#print(self.p1.printTaken())
@@ -155,46 +163,57 @@ class Table(object):
 	def winnerSituation(self, player):
 		# rewards a player a list of cards
 		# deletes these cards from the playzone
+		print('Table : playZone length before clearing it: ' + str(len(self.playZone)))
 		for card in self.playZone:
 			player.receiveCard(card)	
 		
 		self.playZone.clear() # equivalent to self.playZone = [] or del self.playzone[:]
-
+		print('Table : playZone length after clearing it: ' + str(len(self.playZone)))
 
 	def checkWinningCard(self, cardP1, cardP2):
-
 		if cardP1.compareWith(cardP2) == True:
+			print("Table : " + str(player1.name) + ' wins with ' + cardP1.printCard())
 			self.winnerSituation(self.p1)
-		
 		elif cardP1.compareWith(cardP2) == False:
+			print("Table : " + str(player2.name) + ' wins with ' + str(cardP2.printCard()))
 			self.winnerSituation(self.p2)
-		
 		else: # when its neither True nor False then they are the same
+			print('Table : WAR')
 			self.war(self.p1, self.p2)
 
-	def turn(self, p1, p2):
-	 	
-	 	p1Card = p1.giveCard()
-	 	p2Card = p2.giveCard()
-	 	self.playZone.append(p1Card)
-	 	self.playZone.append(p2Card)
+	def turn(self):
+		if self.p1.returnNumCards() > 0 and self.p2.returnNumCards() > 0:
+			p1Card = self.p1.giveCard()
+			p2Card = self.p2.giveCard()
+            self.playZone.append(p1Card)
+            self.playZone.append(p2Card)
+            self.checkWinningCard(p1Card, p2Card)
+        else:
+            print('Table : A player finished cards')
+#elif p1.returnNumCards() < 1:
+#self.declareWinner(self.p2)
 
-	 	self.checkWinningCard(p1Card, p2Card)
 	
-	def war(self, p1, p2):
+	def war(self):
 		for i in range(1, 3): # 2 times
-			card = p1.giveCard()
-			card2 = p2.giveCard()
+			card = self.p1.giveCard()
+			card2 = self.p2.giveCard()
 			self.playZone.append(card)
 			self.playZone.append(card2)
-		self.turn(p1, p2)
+		self.turn(self.p1, self.p2)
+	
+	def declareWinner(player):
+		player.gainAWin()
+		print('Congratulations ' + player.name)
+		self.deck.clear()
+		del self.deck
+		del self
 
-	 		
 
 while True:
 	# init the two players
-    player1 = Player('grigor')
-    player2 = Player('teodor')
+    player1 = Player('Gri')
+    player2 = Player('Ted')
 
     # init the deck
     deck = Deck()
@@ -213,18 +232,18 @@ while True:
     counter = 0
     winner = ''
    
-    while player1.returnNumCards() > 0 or player2.returnNumCards() > 0:
+    while player1.returnNumCards() > 0 and player2.returnNumCards() > 0:
     	counter += 1
-    	print('Turn ' + str(counter) + " *************************************************")
+    	print('Main : Turn ' + str(counter) + " *************************************************")
+    	#input('Main : press ENTER for next turn')
     	table.turn(player1, player2)
-    	input('press ENTER for next turn')
     	if player1.returnNumCards() < 1:
-    		print ('Congratulations player ' + player1.name)
+    		table.declareWinner(player2)
     	elif player2.returnNumCards() < 1:
-    		print ('Congratulations player ' + player2.name)
+    		table.declareWinner(player1)
     	else:
     		pass	
-    print('Game finished')		
+    print('Main : Game finished')		
 
 
 
