@@ -1,4 +1,10 @@
-Currently trying out the whole game flow
-- turns are proceeding when user presses enter
-- some loops are not working properly 
-- after each turn both players need to decrement num of hand with 1 each and nothing different
+- list index out of range
+- I haven't covered all posible situations with winner declaration method
+- This error comes out only sometimes
+- consider making a menu where we can 
+- - start a game
+- - check scores
+- - login with diff players
+- login with new player by name
+- if name exists we login with that player, else we create a new player
+- each player will have his wins listed

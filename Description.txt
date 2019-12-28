@@ -1,5 +1,5 @@
 An implementation of the card game called war
 
-classes: Card, Deck, Player
+classes: Card, Deck, Player, Table
 
 
