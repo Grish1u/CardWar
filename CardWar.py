@@ -63,7 +63,6 @@ class Player(object):
 		self.name = name
 		self.hand = []
 		self.taken = []
-		self.wins = 0
 		self.hasCards = True
 	
 	# giveCard() 
@@ -130,11 +129,6 @@ class Player(object):
 		return self.returnHandLen() + len(self.taken)
 	def returnHandLen(self):
 		return len(self.hand)
-	def gainAWin(self):
-		self.wins += 1
-	def scores(self):
-		# maybe some more robust type of scoring pane
-		return wins
 
 class Table(object):
 	def __init__(self, deck, player1, player2):
@@ -189,23 +183,40 @@ class Table(object):
 
 			print('Table : ' + str(cardsInWar) + ' WAR')
 			self.war()
+
 	# A - checks if player has cards else to to winScreen(declareWinner())
 	# B - each player puts 1 card in the playzone
 	# C - cards get compared by calling checkWinningCard method
 	def turn(self):
 		# here we check for winning condition before each player gives a card
-		if self.p1.hasCards:
+		# if self.p1.hasCards:
+		# 	p1Card = self.p1.giveCard()
+		# 	self.playZone.append(p1Card)
+		# else:
+		# 	self.declareWinner(self.p2)
+		
+		# if self.p2.hasCards:
+		# 	p2Card = self.p2.giveCard()
+		# 	self.playZone.append(p2Card)
+		# else:
+		# 	self.declareWinner(self.p1)
+		
+		if self.p1.hasCards and self.p2.hasCards:
 			p1Card = self.p1.giveCard()
 			self.playZone.append(p1Card)
-		else:
-			self.declareWinner(self.p2)
-		
-		if self.p2.hasCards:
 			p2Card = self.p2.giveCard()
 			self.playZone.append(p2Card)
-		else:
-			self.declareWinner(self.p1)
-		self.checkWinningCard(p1Card, p2Card)
+			#check if botcards are in playzone, else whoever s card is missing the other is the winner
+			self.checkWinningCard(p1Card, p2Card)
+		elif self.p1.hasCards or self.p2.hasCards:
+			if self.p1.hasCards:
+				self.declareWinner(self.p1)
+			elif self.p2.hasCards:
+				self.declareWinner(self.p2)
+			else:
+				print('Table : Inner elif passed - something is wrong')
+		else: 
+			print('Table : Outer layer :Something is wrong')
 
 
 		
@@ -225,7 +236,6 @@ class Table(object):
 		self.turn()
 	
 	def declareWinner(self, player):
-		player.gainAWin()
 		print('Congratulations ' + player.name)
 		self.deck.cards.clear()
 		del self.deck
@@ -233,8 +243,52 @@ class Table(object):
 		return 'We have a winner'
 
 class menu():
+	atp = []
+	menu = {
+		1: 'Play',
+		2: 'Change users', # will have array for alltime users and array who are logged
+		3: 'See all time scores'
+	}
+	# when user logs in it with existing name they will play as that name
+	# when user logs in with different it will be created
 	def __init__(self):
-		self.atPlayers = []
+		pass
+	
+	def warGame():
+		
+		print('Menu : Game starting')
+
+	def startMenu():
+		while True:
+			options = self.menu.keys()
+			options.sort()
+
+			for option in options:
+				print option, self.menu[option]
+
+			choice = input('Menu : Your selection: ')
+			if selection == '1':
+				print('Menu : you selected 1')
+			
+				pass
+			elif choice == '2':
+				print('Menu : you selected 2')
+				pass
+			elif choice == '3':
+				print('Menu : you selected 3')
+				pass
+
+	def loginToMenu(player):
+		
+		pans = input('Menu : enter your name: ') # pans - player answer
+		
+		if pans in self.atp:
+			return self.atp.index(pans)
+		else:
+			self.atp.append(player)
+			return atp[-1] # should be 'player' but i made this for testing purposes on getting last index 
+	
+
 
 while True:
 	# init the two players

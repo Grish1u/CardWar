@@ -1,9 +1,14 @@
 An implementation of the card game called war
 
 Classes: 
+
 Card, Deck, Player, Table
 
+
+
+
 Methods and fields:
+
 Card:
 - static cardColors = [..]
 - static cardValueNames = [..]
@@ -26,7 +31,6 @@ Player:
 - name
 - hand = [] - gets card from taken
 - taken = [] - its separate array because they are faced up 
-- wins = 0 when initialized for first time it is 0
 - hasCards = True - might help to jump out of main loop and go to winner screen
 + giveCard()
 + handEmpty() - Helps to decide if takenToHand() is needed
@@ -37,8 +41,6 @@ Player:
 + printTaken() - only prints each card in taken of player
 + printNumCards()
 + returnNumCards()
-+ gainAWin() - possibly it will be part of winScreen
-+ scores() - meant to show statistics and scores of current player
 
 Table:
 - deck
