@@ -1,5 +1,54 @@
 An implementation of the card game called war
 
-classes: Card, Deck, Player, Table
+Classes: 
+Card, Deck, Player, Table
 
+Methods and fields:
+Card:
+- static cardColors = [..]
+- static cardValueNames = [..]
+
+- value
+- color
+- valueName
++ compareWith(otherCard)
++ printCard()
+
+Deck:
+- cards = [all 52 cards]
++ getSize()
++ getTopCard()
++ removeTopCard()
++ shuffleDeck()
++ printCards()
+
+Player:
+- name
+- hand = [] - gets card from taken
+- taken = [] - its separate array because they are faced up 
+- wins = 0 when initialized for first time it is 0
+- hasCards = True - might help to jump out of main loop and go to winner screen
++ giveCard()
++ handEmpty() - Helps to decide if takenToHand() is needed
++ receiveCard(card)
++ shuffleTaken()
++ takenToHand() pushes all cards from taken to hand and clears taken else jumps to winScreen
++ printHand() - only prints each card in hand of player
++ printTaken() - only prints each card in taken of player
++ printNumCards()
++ returnNumCards()
++ gainAWin() - possibly it will be part of winScreen
++ scores() - meant to show statistics and scores of current player
+
+Table:
+- deck
+- p1
+- p2
+- playzone = []
++ deckDeals() - deck gives all cards to players' taken, should be empty at the end
++ winnerSituation(player) - should be used after decision of winning card is made, awards the current player with the cards in playzone
++ checkWinningCard(card1, card2) - when we need to compare cards, goes to war conditions make so
++ turn() - if each player has cards it gives one from each, else declares a winner(jumps to winScreen)
++ war() - gives 2 cards from each player and then does a turn()
++ declareWinner() - meant to help with end game and going to winScreen and keeping count of statistics
 

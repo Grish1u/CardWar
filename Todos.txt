@@ -2,10 +2,5 @@
 - I haven't covered all posible situations with winner declaration method
 - This error comes out only sometimes
 - make the endGame winner decision to come up
+- check war method (was meant to use the turn method twice but it turns out after each turn cards get compared)
 - consider making a menu where we can 
-- - start a game
-- - check scores
-- - login with diff players
-- login with new player by name
-- if name exists we login with that player, else we create a new player
-- each player will have his wins listed

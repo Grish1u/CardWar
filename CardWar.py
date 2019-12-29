@@ -106,7 +106,7 @@ class Player(object):
 		else:
 			print('Player : ' + self.name + " taken to hand unsuccessful" )
 			self.hasCards = False
-			break
+			# I need to add something here to jump to a gameWinner method
 
 	def printHand(self):
 		print( "Player : " + self.name + " - hand cards: ")
@@ -189,7 +189,9 @@ class Table(object):
 
 			print('Table : ' + str(cardsInWar) + ' WAR')
 			self.war()
-
+	# A - checks if player has cards else to to winScreen(declareWinner())
+	# B - each player puts 1 card in the playzone
+	# C - cards get compared by calling checkWinningCard method
 	def turn(self):
 		# here we check for winning condition before each player gives a card
 		if self.p1.hasCards:
