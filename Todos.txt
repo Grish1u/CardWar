@@ -1,6 +1,7 @@
-- list index out of range
+- list index out of range (check player:taken to hand method else statetment)
 - I haven't covered all posible situations with winner declaration method
 - This error comes out only sometimes
+- make the endGame winner decision to come up
 - consider making a menu where we can 
 - - start a game
 - - check scores
