@@ -2,7 +2,7 @@ An implementation of the card game called war
 
 Classes: 
 
-Card, Deck, Player, Table
+Card, Deck, User, Table, App
 
 
 
@@ -10,30 +10,34 @@ Card, Deck, Player, Table
 Methods and fields:
 
 Card:
-- static cardColors = [..]
-- static cardValueNames = [..]
+- static suits = [..]
+- static names = [..]
 
 - value
-- color
-- valueName
-+ compareWith(otherCard)
-+ printCard()
+- name
+- suit
++ compare(otherCard)
++ printself()
++ getNameValue()
+
 
 Deck:
 - cards = [all 52 cards]
++ shuffleDeck()
 + getSize()
 + getTopCard()
 + removeTopCard()
-+ shuffleDeck()
 + printCards()
 
-Player:
+User:
 - name
 - hand = [] - gets card from taken
 - taken = [] - its separate array because they are faced up 
-- hasCards = True - might help to jump out of main loop and go to winner screen
-+ giveCard()
-+ handEmpty() - Helps to decide if takenToHand() is needed
+- flag = True - when false the game is finished and winner is decided
++ turn() - calls fixCards() first and then if flag is true returns a card
++ fixCards() - if self len(cards) calls resign() if len(hand) = 0 puts to it all from taken
++ giveCard() - returns a card from a list with the pop() method
++ resign() - changes flag to false
 + receiveCard(card)
 + shuffleTaken()
 + takenToHand() pushes all cards from taken to hand and clears taken else jumps to winScreen
