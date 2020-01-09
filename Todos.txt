@@ -1,6 +1,0 @@
-- list index out of range (check player:taken to hand method else statetment)
-- I haven't covered all posible situations with winner declaration method
-- This error comes out only sometimes
-- make the endGame winner decision to come up
-- check war method (was meant to use the turn method twice but it turns out after each turn cards get compared)
-- consider making a menu where we can 
