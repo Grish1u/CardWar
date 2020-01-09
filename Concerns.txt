@@ -1,7 +1,0 @@
-- making too many shuffle methods
-- check if deck is dleted properly and game is rdy for another loop
-- for this need to give the player some wins
-- maybe have to make a deck for each player's hand
-- I am only concentrating on the flow
-- thats why later I have to heavily...
-- ...error check heavily
