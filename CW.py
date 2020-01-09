@@ -1,5 +1,5 @@
 import random
-from tests import testCard
+import time
 class Card(object):
 	suits = ['C', 'D', 'H', 'S' ] 
 	names = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"]
@@ -57,7 +57,6 @@ class User(object):
 		self.hcards = []
 		self.tcards = []
 		self.flag = True
-		self.wins = 0
 	
 	def turn(self):
 		self.fixCards()
@@ -85,7 +84,7 @@ class User(object):
  		return k
 	
 	def resign(self):
-		print(self.name + 'User: resigned')
+		print('User: {} resigned'.format(self.name))
 		self.flag = False
 	
 	def getWins(self):		
@@ -94,8 +93,6 @@ class User(object):
 	def getNumCards(self):
 		msg = len(self.hcards) + len(self.tcards)
 		return msg
-	def addAWin(self):
-		self.wins += 1
 	
 	def aboutMe(self):
 		msg = "User: {}, hcards:{}, tcards:{}".format(self.name, len(self.hcards), len(self.tcards))
@@ -155,17 +152,6 @@ class Table(object):
 				self.pB.tcards.append(k)
 			else:
 				print ('Table: error')
-	# true if card a is bigger
-	# false if card a is smaller
-	# message if equal
-	# def cardCompare(self, a, b):
-	# 	if a.getNameValue() > b.getNameValue():
-	# 		return True
-	# 	elif a.getNameValue() < b.getNameValue():
-	# 		return False
-	# 	else:
-	# 		msg = 'Table: cards are equal'
-	# 		return msg
 
 
 	def aboutMe(self):
@@ -174,16 +160,21 @@ class Table(object):
 		msg = "Table: deck:{} cards, pA:{} total cards, pB:{} total cards, playzone: {} cards".format(str(len(self.deck.cards)), pac, pbc, len(self.playzone) )
 		print(msg)
 
-	# maybe when end both players give their cards back to the deck
-
 	
 class App(object):
-	users = [] # to make so users wins are kept in statistics text file
 	menu = {
 		1: 'Play',
 		2: 'See all time scores',
-		3: 'Quit game'
+		3: 'Quit game',
+		4: 'Login as different players'
 	}
+	# there is a default init method
+	def __init__(self):
+		self.name = 'Card War Game'
+		self.users = []
+		self.scores = []
+		self.initUsers()
+		self.initScores()
 
 	def displayMenu(self):
 		options = sorted(self.menu.keys())
@@ -201,27 +192,40 @@ class App(object):
 		elif choice == '2':
 			print('Menu : you selected 2')
 			print('Menu : All time scores')
-			print('Nothing yet')
+			self.showScores()
 		elif choice == '3':
 			print('Menu : you selected 3')
-			print('Menu : quitting game')
+			print('Menu : quitting and saving scores')
+			self.writeUsers()
+			self.writeScores()
 			quit()
 	
-	def menuStay(self):
-		self.displayMenu()
-		self.applyChoice()
+	
+	def showScores(self):
+		for user in self.users:
+			print('{} {} wins'.format(user, self.scores[self.users.index(user)]))
+		# 	print('{} has {} wins'.format(self.users[i]), self.scores[i])
 
-	def addPlayers():
-		pass
+	
 	def playWar(self):
-			a = User(input('App: name: ')) #
-			b = User(input('App: name: ')) #
-			self.users.append(User(a.name))
-			self.users.append(User(b.name))
-			table = Table(a, b)
+			# load users with ones from usrnms.txt
+			print('App: scores {}'.format(self.scores))
+			print('App: all users {}'.format(self.users))
+
+			# choose users and login
+			a = input('App: p1 name: ') #
+			indA = self.loginUser(a) # if useer in users returns its index if not appends a new name in users and returns last index
+			b = input('App: p2 name: ') #
+			indB = self.loginUser(b)
+			print('App: all users after login {}'.format(self.users))
+
+			# I need to prepare for this
+			table = Table(User(self.users[indA]), User(self.users[indB])) # creating a new user straight here passing the index from users as name
 			table.deckDeals()
 			table.aboutMe()
+			input('App: press enter to begin..')
 			print('App: Game Starts')
+			time.sleep(0.8)
 			
 			# THIS SHOULD END WHEN A PLAYER HAS NO CARDS
 			count = 0
@@ -231,45 +235,105 @@ class App(object):
 				table.aboutMe()
 				table.turnLoop()
 				count += 1
+				if count > 900 :
+					print('App: Game might have entered an infinite loop')
+					time.sleep(0.5)
+					break
 
-			
+			# Winner resolution
 			if table.pA.flag == False:
 				print('App: congrats p2')
+				self.scores[indB] += 1
 				print('App: users list is: {}, {}'.format(str(len(self.users)), str(self.users)))
-				nms = []
-				##### TESTCODE #######
-				# for usr in self.users:
-				# 	nms.append(usr.name)
-				# print(nms)
-				# self.users[-2].addAWin()
 				del table
-				self.writeTurns(count)
-				self.menuStay()
 			elif table.pB.flag == False:
 				print('App: congrats p1')
-				print('App: users list is: {}'.format(str(len(self.users))))
-				##### TESTCODE #######
-				# nms = []
-				# for usr in self.users:
-				# 	nms.append(usr.name)
-				# print(nms)
-				# self.users[-1].addAWin()
-				self.writeTurns(count)
-				del table
-				self.menuStay()	 
+				self.scores[indA] += 1
+				print('App: users list is: {}, {}'.format(str(len(self.users)), str(self.users)))
+				del table	 
 			else:
+
 				print('App: unknown winner - error or something')
-				self.menuStay()
+	
+	
+
+
+	# initUsers and initScores()
+	# checks if a file is made
+	def initUsers(self):
+		try:
+			file = open('usrnms.txt', 'r')
+			for line in file:
+				nm = line
+				nm = nm[:-1] # removing the new line symbol
+				self.users.append(nm)
+			file.close()
+			del file
+			print('App: Users file loaded') 
+		except IOError:
+			print('App: Users file not found')
+	
+	def initScores(self):
+		try:
+			file = open('scores.txt', 'r')
+			for line in file:
+				num = line
+				num = num[:-1] # deletes the new line symbol
+				#print(type(num))
+				self.scores.append(int(num))
+			file.close()
+			del file
+			print('App: Scores file loaded')
+		except IOError:
+			file = open('scores.txt', 'w')
+			file.close()
+			del file
+			print('App: Scores file not found\n... created a file called scores.txt')	
+	
+	# At the end we need to write them again
+	def writeUsers(self):
+		file = open('usrnms.txt', 'w')
+		for user in self.users:
+			file.write('{}\n'.format(user))
+		file.close()
+		del file
+	
+	def writeScores(self):
+		file = open('scores.txt', 'w')
+		for num in self.scores:
+			file.write('{}\n'.format(num))
+		file.close()
+		del file
+
 	def writeTurns(self, turnscount): # this method will write the turns count to a separate text files so if I want to make something later out of the info
 		turnsfile = open('turns.txt', 'a+')
-		turnsfile.write('{}:(warx5)-'.format(str(turnscount - 1)))
+		turnsfile.write('{}:(warx5)-\n'.format(str(turnscount - 1)))
+		turnsfile.close()
+	
+	# returns the name's index in list of users
+	# if name not there it appends it to users end and returns index -1 (last)
+	def loginUser(self, name):
+		if name in self.users:
+			indexinusers = self.users.index(name)
+			print('App: User found in {} index'.format(str(indexinusers)))
+			return indexinusers
+		else:
+			self.users.append(name)
+			self.scores.append(0)
+			print('App: User name appended to users list')
+			theindex = self.users.index(name)
+			return theindex # this is the last index where we append to
 
-app = App()
+app = App() # With init of app I have loaded its users and scores fields
 
 while True:
-	app.menuStay()
+	app.displayMenu()
 
 
 input('enting')
 quit()
 
+# ATM
+
+# only works if I have set the 2 files first
+# if I add another player it doesnt add another 0 to scores.txt and maybe list scores
