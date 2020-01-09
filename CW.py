@@ -334,6 +334,3 @@ input('enting')
 quit()
 
 # ATM
-
-# only works if I have set the 2 files first
-# if I add another player it doesnt add another 0 to scores.txt and maybe list scores
